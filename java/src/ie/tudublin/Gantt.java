@@ -73,6 +73,10 @@ public class Gantt extends PApplet
 			println(tasks.get(i).toString());
 		}
 		
+		//more visible if called again
+		println("------------------------------");
+		println();
+		
 	}//end printTasks()
 	
 	public void mousePressed()
@@ -283,7 +287,7 @@ public class Gantt extends PApplet
 				
 				//if the user moved end point above 30, this will make sure end point stop at 30
 				if(data + distance > 30){
-					tasks.get(row_selected).set_end(30);]
+					tasks.get(row_selected).set_end(30);
 					
 				//else change the end point value stored in array list
 				}else{
@@ -301,7 +305,10 @@ public class Gantt extends PApplet
 		data = 0;
 		distance = 0;
 		max = 0;
-	}
+		
+		//prints values stored in array list again
+		//printTasks();
+	}//end mouseReleased()
 	
 	
 	public void setup() 
