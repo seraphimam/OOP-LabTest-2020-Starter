@@ -12,6 +12,12 @@ public class Gantt extends PApplet
 	int row_count = 0;
 	int col_width = 20;
 	int row_height = 40;
+	int row_selected = -1;
+	int data = 0;
+	int distance = 0;
+	int max = 0;
+	float x, y, w, h;
+	boolean start = true;
 	
 	public void settings()
 	{
@@ -38,14 +44,71 @@ public class Gantt extends PApplet
 	
 	public void mousePressed()
 	{
-		println("Mouse pressed");	
+		for(int i = 0; i < row_count; i++){
+			
+			if(mouseY >= ((float)((2.5 + i) * row_height)) && mouseY < ((float)((3.3 + i) * row_height))){
+				
+				if(mouseX >= ((8 + tasks.get(i).get_start()) * col_width) && mouseX < ((9 + tasks.get(i).get_start()) * col_width)){
+					row_selected = i;
+					max = tasks.get(i).get_end() - tasks.get(i).get_start() - 1;
+					data = tasks.get(i).get_start();
+					start = true;
+					println(tasks.get(i).get_name() + " selected start.");
+				}
+				
+				if(mouseX >= ((7 + tasks.get(i).get_end()) * col_width) && mouseX < ((8 + tasks.get(i).get_end()) * col_width)){
+					row_selected = i;
+					max = tasks.get(i).get_start() - tasks.get(i).get_end() + 1;
+					data = tasks.get(i).get_end();
+					start = false;
+					println(tasks.get(i).get_name() + " selected end.");
+				}
+			}
+		
+		}
+		
+		if(row_selected != -1){
+			println(tasks.get(row_selected).get_name() + " selected.");
+		}
 	}
 
 	public void mouseDragged()
 	{
-		println("Mouse dragged");
+		if(row_selected != -1){
+			distance = ((int)((mouseX - (9 * col_width)) / col_width)) - data + 1;
+			
+			if(start){
+				if(distance > max){
+					distance = max;
+				}
+				
+				if(data + distance < 1){
+					tasks.get(row_selected).set_start(1);
+				}else{
+					tasks.get(row_selected).set_start(data + distance);
+				}
+				
+			}else{
+				if(distance < max){
+					distance = max;
+				}
+				
+				if(data + distance > 30){
+					tasks.get(row_selected).set_end(30);
+				}else{
+					tasks.get(row_selected).set_end(data + distance);
+				}
+				
+			}
+		}
 	}
 
+	public void mouseReleased(){
+		row_selected = -1;
+		data = 0;
+		distance = 0;
+		max = 0;
+	}
 	
 	
 	public void setup() 
@@ -64,7 +127,6 @@ public class Gantt extends PApplet
 	public void displayTasks(){
 		textSize(12);
 		textAlign(CENTER, CENTER);
-		float x, y, w, h;
 		
 		for(int i = 0; i < 30; i++){
 			fill(0,0,100);
