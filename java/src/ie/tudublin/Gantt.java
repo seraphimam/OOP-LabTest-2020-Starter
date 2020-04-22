@@ -17,6 +17,7 @@ public class Gantt extends PApplet
 	int distance = 0;
 	int max = 0;
 	float x, y, w, h;
+	int data_x, data_y;
 	boolean start = true;
 	
 	public void settings()
@@ -29,6 +30,7 @@ public class Gantt extends PApplet
 		table = loadTable("../data/tasks.csv", "header");
 		
 		row_count = table.getRowCount();
+		println(row_count);
 		
 		for(TableRow r : table.rows()){
 			tasks.add(new Task(r));
@@ -44,6 +46,7 @@ public class Gantt extends PApplet
 	
 	public void mousePressed()
 	{
+		/*
 		for(int i = 0; i < row_count; i++){
 			
 			if(mouseY >= ((float)((2.5 + i) * row_height)) && mouseY < ((float)((3.3 + i) * row_height))){
@@ -65,6 +68,39 @@ public class Gantt extends PApplet
 				}
 			}
 		
+		}
+		*/
+		
+		if(mouseX >= (9 * col_width) && mouseX <= (38 * col_width)){
+			data_x = (int)(map(mouseX, (9 * col_width), (38 * col_width), 1, 30));
+		}else{
+			data_x = -1;
+		}
+
+		if(mouseY >= (float)(2.5 * row_height) && mouseY <= (float)((1.5 + row_count) * row_height)){
+			data_y = (int)(map(mouseY, (float)(2.5 * row_height), (float)((1.5 + row_count) * row_height), 0, row_count - 1));
+		}else{
+			data_y = -1;
+		}
+
+		if(data_x != -1 && data_y != -1){
+			println("go");
+			
+			if(data_x == tasks.get(data_y).get_start()){
+				println("start");
+				start = true;
+				row_selected = data_y;
+				data = tasks.get(data_y).get_start();
+				max = tasks.get(data_y).get_end() - tasks.get(data_y).get_start() - 1;
+			}
+			
+			if(data_x == tasks.get(data_y).get_end() - 1){
+				println("end");
+				start = false;
+				row_selected = data_y;
+				data = tasks.get(data_y).get_end();
+				max = tasks.get(data_y).get_start() - tasks.get(data_y).get_end() + 1;
+			}
 		}
 		
 		if(row_selected != -1){
