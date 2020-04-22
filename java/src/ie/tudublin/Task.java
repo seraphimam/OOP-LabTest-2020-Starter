@@ -1,5 +1,10 @@
 package ie.tudublin;
 
+/*
+	name: Ming Chung Poon
+	Student number: C18748391
+*/
+
 import processing.data.Table;
 import processing.data.TableRow;
 
@@ -10,12 +15,14 @@ public class Task{
 	public Task(){
 	}
 	
+	//constructor accepting individual values to each data field
 	public Task(String name, int start, int end){
 		this.name = name;
 		this.start = start;
 		this.end = end;
 	}
 	
+	//constructor accepting TableRow
 	public Task(TableRow row){
 		this.name = row.getString("Task");
 		this.start = row.getInt("Start");
@@ -48,7 +55,7 @@ public class Task{
 		return this.end;
 	}
 	
-	//toString
+	//toString method that uses concatenation 
 	public String toString(){
 		String out = "Task ";
 		

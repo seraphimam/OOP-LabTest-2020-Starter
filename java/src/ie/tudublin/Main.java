@@ -1,5 +1,10 @@
 package ie.tudublin;
 
+/*
+	name: Ming Chung Poon
+	Student number: C18748391
+*/
+
 public class Main
 {
 
