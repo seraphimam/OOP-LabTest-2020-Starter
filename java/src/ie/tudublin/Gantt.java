@@ -64,6 +64,7 @@ public class Gantt extends PApplet
 	public void displayTasks(){
 		textSize(12);
 		textAlign(CENTER, CENTER);
+		float x, y, w, h;
 		
 		for(int i = 0; i < 30; i++){
 			fill(0,0,100);
@@ -84,7 +85,14 @@ public class Gantt extends PApplet
 			
 			fill((i * (100 / row_count)),100,100);
 			noStroke();
-			rect(((8 + tasks.get(i).get_start()) * col_width), ((float)((2.5 + i) * row_height)), ((tasks.get(i).get_end() - tasks.get(i).get_start()) * col_width), ((float)(0.8 * row_height)), 10);
+			//rect(((8 + tasks.get(i).get_start()) * col_width), ((float)((2.5 + i) * row_height)), ((tasks.get(i).get_end() - tasks.get(i).get_start()) * col_width), ((float)(0.8 * row_height)), 10);
+			
+			x = map(tasks.get(i).get_start(), 1, 30, (9 * col_width), (38 * col_width));
+			y = map(i, 0, (row_count - 1), (float)(2.5 * row_height), (float)((1.5 + row_count) * row_height));
+			w = map((tasks.get(i).get_end() - tasks.get(i).get_start()), 1, 30, col_width, (30 * col_width));
+			h = map(row_height, 0, 100, 0, 80);
+			rect(x, y, w, h, 10);
+		
 		}
 	}
 }
